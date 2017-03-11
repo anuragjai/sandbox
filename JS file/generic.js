@@ -19,7 +19,7 @@ var restart=function()
 		
 	});
 
-
+	console.log("\n");
 	rl.question('Program you want to run? ',(answer) => 
 	{  	
 		console.log(`This is your Program name: ${answer}`);
@@ -68,13 +68,14 @@ var restart=function()
 				else
 				{
 					var start = new Date();
-					var run= child_process.exec('./a.out', option,function(err,stdout,stderr)
+	
+					var run= child_process.exec('./a.out',option,function(err,stdout,stderr)
 					{	
 						
 						var end = new Date()-start; //Execution time function
 						
 						console.log("err");
-						console.log(err);
+						console.log(err.message);
 						console.log("stdout");
 						console.log(stdout);
 						console.log("stderr");
@@ -85,10 +86,7 @@ var restart=function()
 						var heapUsed = process.memoryUsage().heapUsed;
 						console.log("Program is using " + heapUsed + " bytes of Heap.");
 						
-						restart();
-						
-						
-						
+						restart();		
 						
 					});
 				}		

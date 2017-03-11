@@ -19,7 +19,7 @@ var restart=function()
 		
 	});
 
-
+	console.log("\n");
 	rl.question('Program you want to run? ',(answer) => 
 	{  	
 		console.log(`This is your Program name: ${answer}`);
@@ -73,7 +73,7 @@ var restart=function()
 						var end = new Date()-start;
 						
 						console.log("err");
-						console.log(err);
+						console.log(err.message);
 						console.log("stdout");
 						console.log(stdout);
 						console.log("stderr");
