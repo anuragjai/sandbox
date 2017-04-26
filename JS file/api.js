@@ -22,7 +22,7 @@ app.post('/file/:filename', function (req, res) {
 	console.log("Got a POST request for the file upload");
 	const filename = req.params.filename;
 	console.log(filename);
-	myService.file(filename, Callback);
+	
 	function Callback(response) {
 		if (response.success) {
 			res.status(200).send(response);
@@ -32,10 +32,17 @@ app.post('/file/:filename', function (req, res) {
 	}
 	var upload = multer({ storage: storage }).single('file');
 	upload(req, res, function (err) {
-		if(err)
-			console.log(err)
-		else
-		res.sendStatus(200); 
+		if(err){
+			console.log(err);
+			res.status(400).send({
+				message: 'Error in uploading file',
+				error: err,
+				success: false
+			});
+		} else {
+			myService.file(filename, Callback);// change
+		}
+			
     })
 
 })

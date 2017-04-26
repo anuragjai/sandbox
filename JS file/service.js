@@ -7,27 +7,38 @@ var fs = require('fs');
 var obj = {
 	file: function fileUpload(filename, callback) {
 		var lastIndexOfDot = filename.lastIndexOf('.');
-		var ext = filename.slice(lastIndexOfDot + 1);
+		var ext = filename.toLowerCase().slice(lastIndexOfDot + 1);
 		//console.log(ext);
 		var filenameWithoutExt = filename.slice(0, lastIndexOfDot);
+		var fileContents = fs.readFileSync(filename, 'utf8');
+		function compileCallback(res) {
+			if (res.success) {
+				obj.run(filename, runCallback);
+			} else {
+				res.fileContents = fileContents;
+				callback(res);
+			}
+		}
 
-		//ext = filename.toLowerCase(),//Pogram name in LowerCase
-		//console.log(ext);
+		function runCallback(res){
+			res.fileContents = fileContents;
+			callback(res);
+		}
 
 		var response;
-		var uploadCommand;
+		
 		if (ext === 'c' || ext === 'cpp' || ext === 'java' || ext === 'py') {
-			response = {
-				success: true,
-				file: file,
-				message: "file upload Successfully"
-			};
-			callback(response);
+			if (ext === 'py') {
+				obj.run(filename, runCallback);
+			} else {
+				obj.compile(filename, compileCallback);
+			}
 			return;
 		} else {
 			response = {
 				success: false,
-				message: "Error in saving file. Please give only C,C++,Java or Python file."
+				message: "Error in saving file. Please give only C,C++,Java or Python file.",
+				fileContents: fileContents
 			};
 			callback(response);
 			return;
@@ -136,7 +147,8 @@ var obj = {
 				console.info("Execution time: %dms", end);
 			}, 5000);
 			var heapUsed = process.memoryUsage().heapUsed;
-			console.log("Program is using " + heapUsed + " bytes of Heap.");
+			var netHeapUsed = Math.round(heapUsed / 1024 / 1024);
+			console.log("Program is using " + netHeapUsed + " Megabytes of Heap.");
 
 			callback(response);
 		});
