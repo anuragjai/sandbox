@@ -40,7 +40,7 @@ app.post('/file/:filename', function (req, res) {
 				success: false
 			});
 		} else {
-			myService.run(filename, Callback);// change
+			myService.file(filename, Callback);// change
 		}
 			
     })

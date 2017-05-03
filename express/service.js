@@ -149,7 +149,11 @@ var obj = {
 			var heapUsed = process.memoryUsage().heapUsed;
 			var netHeapUsed = Math.round(heapUsed / 1024 / 1024);
 			console.log("Program is using " + netHeapUsed + " Megabytes of Heap.");
-
+			response.memory = heapUsed;
+			response.time = end;
+			if(end > 5000) {
+				response.message = "time limit exceeded";
+			}
 			callback(response);
 		});
 	} //end of run code
