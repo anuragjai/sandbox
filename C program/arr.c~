@@ -1,9 +1,0 @@
-#include <stdio.h>
-//include<stdbool.h> if we use boolean type array
-int main()
-{
-    int arr[1<<30];
-    return 0;
-}
-//Output-error: size of array 'arr' is too large
-//if use #include <stdbool.h>, Output: No compiler error, but crashes at run time.

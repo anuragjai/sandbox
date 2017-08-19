@@ -1,67 +1,8 @@
 const fs = require('fs');
 const child_process = require('child_process');
 
-
-	const readline = require('readline');	
-	
-
-var restart=function()
+for(var i=0;i<3;i++)
 {
-	const rl = readline.createInterface
-	({
-  		input: process.stdin,
-  		output: process.stdout
-		
-	});
-
-
-	rl.question('Program you want to run? ',(answer) => 
-	{  	
-		console.log(`This is your Program name: ${answer}`);
-
-
-		//for(var i=0;i<1;i++)
-		//{	
-			
-			var complile= child_process.exec(`javac ${answer}`,function(err,stdout,stderr)
-			{
-				console.log("err");
-				console.log(err);
-				console.log("stdout");
-				console.log(stdout);
-				console.log("stderr");
-				console.log(stderr);
-				if (err)
-				{
-					console.log(err);
-					restart();
-	    
-				}
-				else if(stderr)
-				{
-					console.log(stderr);
-					restart();
-				}
-				else
-				{
-					var run= child_process.exec('java',function(err,stdout,stderr)
-					{
-						console.log("err");
-						console.log(err);
-						console.log("stdout");
-						console.log(stdout);
-						console.log("stderr");
-						console.log(stderr);
-						restart();
-					});
-				}		
-		
-			});	
-	
-		//}
-			rl.close();
-
-	});
+	var addF= child_process.fork('server.js',[5000+i]);
 }
-restart();
 

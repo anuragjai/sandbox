@@ -75,7 +75,7 @@ var restart=function()
 						var end = new Date()-start; //Execution time function
 						
 						console.log("err");
-						console.log(err.code);
+						console.log(err.message);
 						console.log("stdout");
 						console.log(stdout);
 						console.log("stderr");

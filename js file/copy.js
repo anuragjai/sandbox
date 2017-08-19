@@ -3,13 +3,12 @@ const child_process = require('child_process');
 
 	const readline = require('readline');	
 	
-	var option =	{
-			timeout: 5000,
-			maxBuffer: 256000*1024,
-			killSignal: 'SIGKILL' //system kill command
-			}
+var option = {
+		timeout: 5000,
+		maxBuffer: 256000,
+		killSignal: 'SIGKILL' //system kill command
+		}
 	
-
 var restart=function()
 {
 	const rl = readline.createInterface
@@ -19,32 +18,30 @@ var restart=function()
 		
 	});
 
-	console.log("\n");
+
 	rl.question('Program you want to run? ',(answer) => 
 	{  	
-		console.log(`This is your Program name: ${answer}`);
+		//console.log(`This is your Program name: ${answer}`);
 
 
-	//for(var i=0;i<1;i++)
-	//{
 			
 		var filename=`${answer}`;
 		
-		var A1=filename.split(".");
+		var A1=filename.split(".");// just return the last array element 
 		 
-		//var A2=filename.split("."); 
 		
-		var ext =A1[1]; // just return the last array element 
 		
-		//var ext =A2[1];
-		
-		//console.log("A1 is",A1[1]);
-		//console.log("A2 is",A2[1]);
+		var ext =A1[1];
 		
 		if(ext=='c')
 		{
+ 			var fn=`${answer}`;
+ 			var on=fn.split("\.")[0];
  			
-			var complile= child_process.exec(`gcc ${answer}`,function(err,stdout,stderr)
+ 			//console.log(fn);
+ 			//console.log(on);
+ 			
+			var complile= child_process.exec('gcc -o '+on+' '+fn,function(err,stdout,stderr)
 			{
 				
 				console.log("err");
@@ -68,14 +65,16 @@ var restart=function()
 				else
 				{
 					var start = new Date();
-	
-					var run= child_process.exec('./a.out',option,function(err,stdout,stderr)
+					//var cmd='./'+on;
+					//cmd=cmd.trim();
+					var run= child_process.exec('./'+on,option,function(err,stdout,stderr)
 					{	
+				
 						
 						var end = new Date()-start; //Execution time function
 						
 						console.log("err");
-						console.log(err.code);
+						console.log(err.message);
 						console.log("stdout");
 						console.log(stdout);
 						console.log("stderr");
@@ -86,9 +85,10 @@ var restart=function()
 						var heapUsed = process.memoryUsage().heapUsed;
 						console.log("Program is using " + heapUsed + " bytes of Heap.");
 						
-						restart();		
+						restart()				
 						
 					});
+					
 				}		
 		
 			});
@@ -122,8 +122,9 @@ var restart=function()
 					//console.log(mystring);
 					
 					var start = new Date();
-					var run= child_process.exec(`java ${mystring}`, option,function(err,stdout,stderr)
+					var run= child_process.exec(`java ${mystring}`,option,function(err,stdout,stderr)
 					{
+			
 						
 						var end = new Date()-start; //Execution time function
 						
